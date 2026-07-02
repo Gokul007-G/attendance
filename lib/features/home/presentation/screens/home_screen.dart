@@ -3,6 +3,9 @@ import 'package:attendance/core/constant/appColors.dart';
 import 'package:attendance/core/utils/local_data_store.dart';
 import 'package:attendance/core/utils/logger.dart';
 import 'package:attendance/features/home/presentation/provider/home_provider.dart';
+import 'package:attendance/features/home/presentation/screens/absent_details_sheet.dart';
+import 'package:attendance/features/home/presentation/screens/permit_details_sheet.dart';
+import 'package:attendance/features/home/presentation/screens/persent_details_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -447,21 +450,72 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: attendanceCard(
-                    text: 'Persent',
-                    icon: Icons.check_circle,
-                    days: monthData?.persent ?? 0,
-                    color: successGreen,
+                  child: GestureDetector(
+                    onTap:
+                        homeProvider.homeResponseModel.presentData != null &&
+                            homeProvider
+                                .homeResponseModel
+                                .presentData!
+                                .isNotEmpty
+                        ? () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => PresentDetailsSheet(
+                                data:
+                                    homeProvider
+                                        .homeResponseModel
+                                        .presentData ??
+                                    [],
+                              ),
+                            );
+                          }
+                        : null,
+                    child: attendanceCard(
+                      text: 'Present',
+                      icon: Icons.check_circle,
+                      days: monthData?.persent ?? 0,
+                      color: successGreen,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),
-
                 Expanded(
-                  child: attendanceCard(
-                    text: 'Absents',
-                    icon: Icons.event_busy,
-                    days: monthData?.absent ?? 0,
-                    color: errorRed,
+                  child: GestureDetector(
+                    onTap:
+                        homeProvider.homeResponseModel.absentData != null &&
+                            homeProvider
+                                .homeResponseModel
+                                .absentData!
+                                .isNotEmpty
+                        ? () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => AbsentDetailsSheet(
+                                data:
+                                    homeProvider.homeResponseModel.absentData ??
+                                    [],
+                                days:
+                                    ((monthData?.absent ?? 0) +
+                                    (monthData?.halfDay ?? 0)),
+                                halfData:
+                                    homeProvider.homeResponseModel.halfData ??
+                                    [],
+                              ),
+                            );
+                          }
+                        : null,
+                    child: attendanceCard(
+                      text: 'Absents',
+                      icon: Icons.event_busy,
+                      days:
+                          ((monthData?.absent ?? 0) +
+                          (monthData?.halfDay ?? 0)),
+                      color: errorRed,
+                    ),
                   ),
                 ),
               ],
@@ -474,22 +528,69 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: attendanceCard(
-                    text: 'Late',
-                    icon: Icons.access_time,
-                    days: monthData?.late ?? 0,
-                    color: warning,
+                  child: GestureDetector(
+                    onTap:
+                        (homeProvider.homeResponseModel.lateData?.isNotEmpty ??
+                            false)
+                        ? () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => PermitDetailsSheet(
+                                title: "Late Details",
+                                data:
+                                    homeProvider.homeResponseModel.lateData ??
+                                    [],
+                                color: warning,
+                                icon: Icons.access_time,
+                              ),
+                            );
+                          }
+                        : null,
+                    child: attendanceCard(
+                      text: 'Late',
+                      icon: Icons.access_time,
+                      days: monthData?.late ?? 0,
+                      color: warning,
+                    ),
                   ),
                 ),
 
                 const SizedBox(width: 6),
 
                 Expanded(
-                  child: attendanceCard(
-                    text: 'Permit',
-                    icon: Icons.cancel,
-                    days: monthData?.permission ?? 0,
-                    color: secondaryBlue,
+                  child: GestureDetector(
+                    onTap:
+                        (homeProvider
+                                .homeResponseModel
+                                .permissionData
+                                ?.isNotEmpty ??
+                            false)
+                        ? () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => PermitDetailsSheet(
+                                title: "Permission Details",
+                                data:
+                                    homeProvider
+                                        .homeResponseModel
+                                        .permissionData ??
+                                    [],
+                                color: secondaryBlue,
+                                icon: Icons.cancel,
+                              ),
+                            );
+                          }
+                        : null,
+                    child: attendanceCard(
+                      text: 'Permit',
+                      icon: Icons.cancel,
+                      days: monthData?.permission ?? 0,
+                      color: secondaryBlue,
+                    ),
                   ),
                 ),
               ],
@@ -526,6 +627,7 @@ class attendanceCard extends StatelessWidget {
   IconData icon;
   int days;
   Color color;
+
   attendanceCard({
     super.key,
     required this.text,

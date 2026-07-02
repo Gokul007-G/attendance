@@ -35,7 +35,32 @@ class HomeProvider extends ChangeNotifier {
         selectedDate.year,
       );
 
-      Log.i("HomeProvider : Executed : ${homeResponseModel.toJson()}");
+      Log.i("HomeProvider : Executed Status : ${homeResponseModel.status}");
+      Log.i("HomeProvider : Executed Message : ${homeResponseModel.message}");
+      Log.i(
+        "HomeProvider : Executed Month Data : ${homeResponseModel.monthData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Today Data : ${homeResponseModel.todayData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Punch Data : ${homeResponseModel.punchData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Present Data : ${homeResponseModel.presentData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Absent Data : ${homeResponseModel.absentData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Permission Data : ${homeResponseModel.permissionData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Late Data : ${homeResponseModel.lateData}",
+      );
+      Log.i(
+        "HomeProvider : Executed Half Data : ${homeResponseModel.halfData}",
+      );
 
       result = homeResponseModel.status == true;
       _isLoading = false;
