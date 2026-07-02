@@ -4,12 +4,13 @@ import 'package:attendance/features/home/data/model/home_response_half_model.dar
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AbsentDetailsSheet extends StatelessWidget {
+// ignore: must_be_immutable
+class absentDetailsSheet extends StatelessWidget {
   final List<HomeResponseAbsentModel> data;
   final List<HomeResponseHalfModel>? halfData;
   dynamic days;
 
-  AbsentDetailsSheet({
+  absentDetailsSheet({
     super.key,
     required this.data,
     required this.halfData,

@@ -8,9 +8,11 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   Future<LoginResponse> fetchLoginResult(String userId) async {
     Dio dio = Dio(
       BaseOptions(
-        // baseUrl: "http://192.168.0.195/bb-AMS/mobile_services/",
-        baseUrl: "http://10.0.2.2/bb-AMS/mobile_services/",
+        baseUrl: "http://192.168.0.195/bb-AMS/mobile_services/",
+        // baseUrl: "http://10.0.2.2/bb-AMS/mobile_services/",
         headers: {"Content-Type": "application/json"},
+        connectTimeout: const Duration(seconds: 5),
+        sendTimeout: const Duration(seconds: 5),
       ),
     );
 

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:attendance/componentes/custom_text/custom_text.dart';
 import 'package:attendance/core/constant/appColors.dart';
 import 'package:attendance/core/utils/local_data_store.dart';
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     final monthData = homeProvider.homeResponseModel.monthData;
     return Stack(
       children: [
-          //Show the
+        //Show the
         Scaffold(
           appBar: AppBar(
             leading: Padding(
@@ -509,7 +511,7 @@ class HomeScreen extends StatelessWidget {
                                   context: context,
                                   isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
-                                  builder: (_) => AbsentDetailsSheet(
+                                  builder: (_) => absentDetailsSheet(
                                     data:
                                         homeProvider
                                             .homeResponseModel
@@ -627,9 +629,91 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         if (homeProvider.isLoading)
-          Container(
-            color: Colors.black26,
-            child: Center(child: CircularProgressIndicator()),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Container(
+                color: Colors.black.withOpacity(0.18),
+                child: Center(
+                  child: Container(
+                    width: 260,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 28,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colors.white, Colors.blue.shade50],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 30,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 12),
+                          color: Colors.black.withOpacity(0.15),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: primaryBlue.withOpacity(0.1),
+                          ),
+                          child: Icon(
+                            Icons.calendar_month,
+                            color: primaryBlue,
+                            size: 32,
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        SizedBox(
+                          height: 42,
+                          width: 42,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 4,
+                            strokeCap: StrokeCap.round,
+                            valueColor: AlwaysStoppedAnimation(primaryBlue),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Text(
+                          "Loading Attendance",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: primaryBlue,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          "Fetching today's attendance details...",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 13,
+                            height: 1.4,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
       ],
     );
