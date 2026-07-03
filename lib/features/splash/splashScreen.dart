@@ -43,9 +43,10 @@ class Splashscreen extends StatelessWidget {
               right: 60,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (route) => false,
                   );
                 },
                 child: Text(splashButton),

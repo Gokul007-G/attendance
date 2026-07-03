@@ -148,7 +148,7 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                         );
 
-                                        Navigator.push(
+                                        Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
                                             builder: (_) =>
@@ -160,6 +160,7 @@ class LoginScreen extends StatelessWidget {
                                                   child: const HomeScreen(),
                                                 ),
                                           ),
+                                          (route) => false,
                                         );
 
                                         // Navigate to the next screen or perform any other action
@@ -195,17 +196,35 @@ class LoginScreen extends StatelessWidget {
                                       );
                                     }
                                   },
-                                  child: Container(
-                                    width: 55,
-                                    height: 55,
-                                    decoration: BoxDecoration(
-                                      color: primaryBlue,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: const Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: white,
-                                    ),
+                                  child: Consumer<LoginProvider>(
+                                    builder: (context, value, child) {
+                                      return Container(
+                                        width: 55,
+                                        height: 55,
+                                        decoration: BoxDecoration(
+                                          color: primaryBlue,
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: loginProvider.isLoading
+                                              ? SizedBox(
+                                                  width: 24,
+                                                  height: 24,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                        color: white,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                )
+                                              : Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: white,
+                                                ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
