@@ -3,7 +3,6 @@ const String splashTitle = "Welcome to Attendance App";
 const String splashSubtitle = "Your attendance made easy";
 const String splashButton = "Get Started";
 
-
 // Images String
 const String splashAppIcon = "assets/splash/appIcon.svg";
 
@@ -16,7 +15,8 @@ const String loginTextFieldHint = "e.g.1001";
 const String loginFooterText = "Secured by eTimeTrackLite Integration";
 
 const String loginEmptyErrorText = "Please enter the value!";
-const String loginIdErrorText = "Employee Id not found!";
+String loginIdErrorText = "Employee Id not found!";
+const String loginIdServerErrorText = "Please connect to the Office Network!";
 const String loginSuccessText = "Login Successfully!!!";
 
 //Login Screen Image

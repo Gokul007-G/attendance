@@ -1,14 +1,14 @@
 class HomeResponseMonthModel {
   int? workingDays;
-  int? persent;
-  int? absent;
+  int? present;
+  double? absent;
   int? late;
   int? permission;
   int? halfDay;
 
   HomeResponseMonthModel({
     this.workingDays,
-    this.persent,
+    this.present,
     this.absent,
     this.late,
     this.permission,
@@ -16,23 +16,22 @@ class HomeResponseMonthModel {
   });
 
   HomeResponseMonthModel.fromJson(Map<String, dynamic> json) {
-    persent = json['present_days'];
-    absent = json['absent_days'];
-    late = json['lateCount'];
-    permission = json['permissionCount'];
-    workingDays = json['working_days'];
-    halfDay = json['halfDayCount'];
+    workingDays = (json['working_days'] as num?)?.toInt();
+    present = (json['present_days'] as num?)?.toInt();
+    absent = (json['absent_days'] as num?)?.toDouble();
+    late = (json['lateCount'] as num?)?.toInt();
+    permission = (json['permissionCount'] as num?)?.toInt();
+    halfDay = (json['halfDayCount'] as num?)?.toInt();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['present_days'] = persent;
-    data['absent_days'] = absent;
-    data['lateCount'] = late;
-    data['permissionCount'] = permission;
-    data['working_days'] = workingDays;
-    data['halfDayCount'] = halfDay;
-
-    return data;
+    return {
+      'working_days': workingDays,
+      'present_days': present,
+      'absent_days': absent,
+      'lateCount': late,
+      'permissionCount': permission,
+      'halfDayCount': halfDay,
+    };
   }
 }

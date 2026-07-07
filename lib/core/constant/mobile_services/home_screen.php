@@ -23,15 +23,15 @@ try {
     }
 
     /* ---------------- TODAY DETAILS ---------------- */
-    $stmt = $pdo->prepare("SELECT 
-            sno,
-            PunchTimeDetailsId,
-            date
-            FROM PunchTimeDetails
-            WHERE tktno = ?
-            AND CAST(date AS DATE) = CAST(GETDATE() AS DATE)
-            ORDER BY date ASC
-        ");
+    $stmt = $pdo->prepare("SELECT
+        sno,
+        PunchTimeDetailsId,
+        `date`
+    FROM PunchTimeDetails
+    WHERE tktno = ?
+      AND DATE(`date`) = CURDATE()
+    ORDER BY `date` ASC
+");
 
     $stmt->execute(['00' . $userId]);
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -133,16 +133,16 @@ try {
 
     $availableWorkingDays =
         $availableFullDays + ($availableHalfDays * 0.5);
-        
+
     /* ---------------- PRESENT DAYS ---------------- */
 
-    $monthStmt = $pdo->prepare("SELECT 
-        COUNT(DISTINCT CAST(date AS DATE)) AS present_days
-        FROM PunchTimeDetails
-        WHERE tktno = ?
-          AND MONTH(date) = ?
-          AND YEAR(date) = ?
-    ");
+    $monthStmt = $pdo->prepare("SELECT
+        COUNT(DISTINCT DATE(`date`)) AS present_days
+    FROM PunchTimeDetails
+    WHERE tktno = ?
+      AND MONTH(`date`) = ?
+      AND YEAR(`date`) = ?
+");
 
     $monthStmt->execute([
         '00' . $userId,
@@ -153,18 +153,17 @@ try {
     $monthData = $monthStmt->fetch(PDO::FETCH_ASSOC);
     $presentDays = (int)$monthData['present_days'];
 
-    $dateStmt = $pdo->prepare("SELECT 
-                CAST(date AS DATE) AS attendance_date,
-                MIN(date) AS in_time,
-                MAX(date) AS out_time
-            FROM PunchTimeDetails
-            WHERE tktno = ?
-            AND MONTH(date) = ?
-            AND YEAR(date) = ?
-            GROUP BY CAST(date AS DATE)
-            ORDER BY attendance_date
-        ");
-
+    $dateStmt = $pdo->prepare("SELECT
+        DATE(`date`) AS attendance_date,
+        MIN(`date`) AS in_time,
+        MAX(`date`) AS out_time
+    FROM PunchTimeDetails
+    WHERE tktno = ?
+      AND MONTH(`date`) = ?
+      AND YEAR(`date`) = ?
+    GROUP BY DATE(`date`)
+    ORDER BY attendance_date ASC
+");
     $dateStmt->execute([
         '00' . $userId,
         $month,
@@ -270,8 +269,9 @@ try {
             "total_days_in_month" => $monthTotalDays,
             "days_counted" => $daysToCheck,
             "full_working_days" => $fullDays,
-            "half_days" => $halfDays,*/
             "working_days" => $workingDays,
+            "half_days" => $halfDays,*/
+            "working_days" => $monthTotalDays,
             "present_days" => $presentDays,
             "absent_days" => $absentDays,
             "lateCount" => count($lateDays),

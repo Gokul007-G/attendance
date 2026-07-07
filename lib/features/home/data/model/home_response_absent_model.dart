@@ -6,8 +6,8 @@ class HomeResponseAbsentModel {
   HomeResponseAbsentModel({this.date, this.day, this.absentValue});
 
   HomeResponseAbsentModel.fromJson(Map<String, dynamic> json) {
-    date = json['date'];
-    day = json['day'];
+    date = json['date'].toString();
+    day = json['day'].toString();
     absentValue = json['absent_value'];
   }
 

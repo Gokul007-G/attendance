@@ -169,14 +169,39 @@ class LoginScreen extends StatelessWidget {
                                           "LoginScreen : onTap : loginResponse False : ${loginProvider.error}",
                                         );
                                         toastification.show(
-                                          type: ToastificationType.info,
+                                          type: ToastificationType.error,
                                           alignment: Alignment.bottomCenter,
                                           context: context,
                                           // optional if you use ToastificationWrapper
-                                          title: Text(loginIdErrorText),
+                                          title: Text(
+                                            loginProvider.error.isNotEmpty
+                                                ? loginProvider.error
+                                                : loginEmptyErrorText,
+                                          ),
                                           autoCloseDuration: const Duration(
                                             seconds: 3,
                                           ),
+                                        );
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Login Failed'),
+                                              content: Text(
+                                                loginProvider.error.isNotEmpty
+                                                    ? loginProvider.error
+                                                    : loginEmptyErrorText,
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
                                         // Show an error message or perform any other action
                                       }
@@ -189,7 +214,11 @@ class LoginScreen extends StatelessWidget {
                                         alignment: Alignment.bottomCenter,
                                         context: context,
                                         // optional if you use ToastificationWrapper
-                                        title: Text(loginEmptyErrorText),
+                                        title: Text(
+                                          loginProvider.error.isNotEmpty
+                                              ? loginProvider.error
+                                              : loginEmptyErrorText,
+                                        ),
                                         autoCloseDuration: const Duration(
                                           seconds: 3,
                                         ),

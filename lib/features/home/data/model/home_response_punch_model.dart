@@ -1,6 +1,6 @@
 class HomeResponsePunchModel {
-  String? sno;
-  String? punchId;
+  int? sno;
+  int? punchId;
   String? date;
 
   HomeResponsePunchModel({this.sno, this.punchId, this.date});

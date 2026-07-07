@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:attendance/componentes/custom_text/custom_text.dart';
 import 'package:attendance/core/constant/appColors.dart';
 import 'package:attendance/core/utils/local_data_store.dart';
@@ -519,7 +518,7 @@ class HomeScreen extends StatelessWidget {
                           child: attendanceCard(
                             text: 'Present',
                             icon: Icons.check_circle,
-                            days: monthData?.persent ?? 0,
+                            days: monthData?.present ?? 0,
                             color: successGreen,
                           ),
                         ),
@@ -561,8 +560,8 @@ class HomeScreen extends StatelessWidget {
                             text: 'Absents',
                             icon: Icons.event_busy,
                             days:
-                                ((monthData?.absent ?? 0) +
-                                (monthData?.halfDay ?? 0)),
+                                ((monthData?.absent?.toInt() ?? 0) +
+                                (monthData?.halfDay?.toInt() ?? 0)),
                             color: errorRed,
                           ),
                         ),
